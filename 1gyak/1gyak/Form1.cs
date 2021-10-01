@@ -40,5 +40,21 @@ namespace _1gyak
             };
             users.Add(u);
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            var sfd = new SaveFileDialog();
+            if (sfd.ShowDialog() != DialogResult.OK)
+                return;
+            using (var sw = new StreamWriter(sfd.FileName, false, Encoding.UTF8)) 
+            {
+                foreach (var u in users)
+                {
+                    sw.WriteLine(string.Format(
+                        "{0};{1}", u.ID, u.FullName));
+                }
+            }
+            
+        }
     }
 }
