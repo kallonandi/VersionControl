@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Database1Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="OrderSK" />
+          </Key>
+          <Property Name="OrderSK" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StudentFK" Type="int" />
+          <Property Name="TextbookFK" Type="int" />
+        </EntityType>
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="StudentID" />
+          </Key>
+          <Property Name="StudentID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="60" />
+          <Property Name="Neptun" Type="nchar" MaxLength="6" />
+        </EntityType>
+        <EntityType Name="Textbook">
+          <Key>
+            <PropertyRef Name="TextbookID" />
+          </Key>
+          <Property Name="TextbookID" Type="int" Nullable="false" />
+          <Property Name="StockNumber" Type="nvarchar" MaxLength="15" />
+          <Property Name="Title" Type="nvarchar" MaxLength="100" />
+          <Property Name="Price" Type="float" />
+          <Property Name="NotAvailable" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Order_ToStudent">
+          <End Role="Student" Type="Self.Student" Multiplicity="0..1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="StudentID" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="StudentFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_ToTextbook">
+          <End Role="Textbook" Type="Self.Textbook" Multiplicity="0..1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Textbook">
+              <PropertyRef Name="TextbookID" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="TextbookFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Database1ModelStoreContainer">
+          <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Student" EntityType="Self.Student" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Textbook" EntityType="Self.Textbook" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Order_ToStudent" Association="Self.FK_Order_ToStudent">
+            <End Role="Student" EntitySet="Student" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_ToTextbook" Association="Self.FK_Order_ToTextbook">
+            <End Role="Textbook" EntitySet="Textbook" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Database1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="OrderSK" />
+          </Key>
+          <Property Name="OrderSK" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StudentFK" Type="Int32" />
+          <Property Name="TextbookFK" Type="Int32" />
+          <NavigationProperty Name="Student" Relationship="Self.FK_Order_ToStudent" FromRole="Order" ToRole="Student" />
+          <NavigationProperty Name="Textbook" Relationship="Self.FK_Order_ToTextbook" FromRole="Order" ToRole="Textbook" />
+        </EntityType>
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="StudentID" />
+          </Key>
+          <Property Name="StudentID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="Neptun" Type="String" MaxLength="6" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Order" Relationship="Self.FK_Order_ToStudent" FromRole="Student" ToRole="Order" />
+        </EntityType>
+        <EntityType Name="Textbook">
+          <Key>
+            <PropertyRef Name="TextbookID" />
+          </Key>
+          <Property Name="TextbookID" Type="Int32" Nullable="false" />
+          <Property Name="StockNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Double" />
+          <Property Name="NotAvailable" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Order" Relationship="Self.FK_Order_ToTextbook" FromRole="Textbook" ToRole="Order" />
+        </EntityType>
+        <Association Name="FK_Order_ToStudent">
+          <End Role="Student" Type="Self.Student" Multiplicity="0..1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="StudentID" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="StudentFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_ToTextbook">
+          <End Role="Textbook" Type="Self.Textbook" Multiplicity="0..1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Textbook">
+              <PropertyRef Name="TextbookID" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="TextbookFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Database1Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Order" EntityType="Self.Order" />
+          <EntitySet Name="Student" EntityType="Self.Student" />
+          <EntitySet Name="Textbook" EntityType="Self.Textbook" />
+          <AssociationSet Name="FK_Order_ToStudent" Association="Self.FK_Order_ToStudent">
+            <End Role="Student" EntitySet="Student" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_ToTextbook" Association="Self.FK_Order_ToTextbook">
+            <End Role="Textbook" EntitySet="Textbook" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Database1ModelStoreContainer" CdmEntityContainer="Database1Entities">
+          <EntitySetMapping Name="Order">
+            <EntityTypeMapping TypeName="Database1Model.Order">
+              <MappingFragment StoreEntitySet="Order">
+                <ScalarProperty Name="OrderSK" ColumnName="OrderSK" />
+                <ScalarProperty Name="StudentFK" ColumnName="StudentFK" />
+                <ScalarProperty Name="TextbookFK" ColumnName="TextbookFK" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Student">
+            <EntityTypeMapping TypeName="Database1Model.Student">
+              <MappingFragment StoreEntitySet="Student">
+                <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Neptun" ColumnName="Neptun" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Textbook">
+            <EntityTypeMapping TypeName="Database1Model.Textbook">
+              <MappingFragment StoreEntitySet="Textbook">
+                <ScalarProperty Name="TextbookID" ColumnName="TextbookID" />
+                <ScalarProperty Name="StockNumber" ColumnName="StockNumber" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="NotAvailable" ColumnName="NotAvailable" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
