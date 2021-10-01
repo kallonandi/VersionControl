@@ -28,6 +28,11 @@ namespace _1gyak
             listBox1.ValueMember = "ID";
             listBox1.DisplayMember = "FullName";
 
+            
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
             var u = new User()
             {
                 LastName = textBox1.Text,
@@ -35,6 +40,5 @@ namespace _1gyak
             };
             users.Add(u);
         }
-      
     }
 }
