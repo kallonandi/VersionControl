@@ -21,7 +21,7 @@ namespace _1gyak
         {
             InitializeComponent();
             label1.Text = Resource1.FullName;
-            
+            button2.Text = Resource1.WriteToFile;
             button1.Text = Resource1.Add;
 
             listBox1.DataSource = users;
