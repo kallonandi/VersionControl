@@ -24,6 +24,7 @@ namespace _1gyak
         Excel.Application xlApp;
         Excel.Workbook xlWB;
         Excel.Worksheet xlSheet;
+        string[] headers;
 
         public Form1()
         {
@@ -48,6 +49,7 @@ namespace _1gyak
                 xlSheet = xlWB.ActiveSheet;
 
                 CreateTable();
+                FormatTable();
 
 
 
@@ -69,7 +71,7 @@ namespace _1gyak
 
         private void CreateTable()
         {
-            string[] headers = new string[]
+            headers = new string[]
             {
                   "Kód",
                  "Eladó",
@@ -135,6 +137,20 @@ namespace _1gyak
 
             return ExcelCoordinate;
         }
+
+        private void FormatTable()
+        {
+            Excel.Range headerRange = xlSheet.get_Range(GetCell(1, 1), GetCell(1, headers.Length));
+            headerRange.Font.Bold = true;
+            headerRange.VerticalAlignment = Excel.XlVAlign.xlVAlignCenter;
+            headerRange.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            headerRange.EntireColumn.AutoFit();
+            headerRange.RowHeight = 40;
+            headerRange.Interior.Color = Color.LightBlue;
+            headerRange.BorderAround2(Excel.XlLineStyle.xlContinuous, Excel.XlBorderWeight.xlThick);
+
+        } 
+        
 
 
         private void Form1_Load(object sender, EventArgs e)
