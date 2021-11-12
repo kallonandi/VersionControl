@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Fejlesztesi_minta.Entities
 {
-    class CarFactory : IToyFactory
+    class CarFactory : Abstraction.IToyFactory
     {
-        public Toy CreateNew()
+        public Abstraction.Toy CreateNew()
         {
             return new Car();
         }
