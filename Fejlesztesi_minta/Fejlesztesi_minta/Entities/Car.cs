@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Fejlesztesi_minta.Entities
 {
-    class Car : Abstraction.Toy
+    class Car : Abstraction.Ball
     {
         protected override void DrawImage(Graphics g)
         {

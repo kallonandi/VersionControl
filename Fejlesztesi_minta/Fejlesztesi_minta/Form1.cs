@@ -9,17 +9,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Toy = Fejlesztesi_minta.Entities.Toy;
+
 
 namespace Fejlesztesi_minta
 {
     public partial class Form1 : Form
     {
-        private List<Toy> _toys = new List<Toy>();
-        private Toy _nextToy;
-        private IToyFactory _factory;
+        private List<Abstraction.Ball> _toys = new List<Abstraction.Ball>();
+        private Abstraction.Ball _nextToy;
+        private Toy _factory;
 
-        public IToyFactory Factory
+        public Toy Factory
         {
             get { return _factory; }
             set { _factory = value;
@@ -36,7 +36,7 @@ namespace Fejlesztesi_minta
         private void createTimer_Tick(object sender, EventArgs e)
         {
             var toy = Factory.CreateNew();
-            _toys.Add((Toy)toy);
+            _toys.Add((Abstraction.Ball)toy);
             toy.Left = -toy.Left;
             mainPanel.Controls.Add(toy);
         }
@@ -72,7 +72,7 @@ namespace Fejlesztesi_minta
         {
             if (_nextToy != null)
                 Controls.Remove(_nextToy);
-            _nextToy = (Toy)Factory.CreateNew();
+            _nextToy = (Abstraction.Ball)Factory.CreateNew();
             _nextToy.Top = label1.Top + label1.Height + 20;
             _nextToy.Left = label1.Left;
             Controls.Add(_nextToy);

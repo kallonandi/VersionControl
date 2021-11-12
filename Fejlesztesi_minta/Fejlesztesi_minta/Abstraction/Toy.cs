@@ -8,9 +8,9 @@ using System.Windows.Forms;
 
 namespace Fejlesztesi_minta.Abstraction
 {
-    public abstract class Toy : Label
+    public abstract class Ball : Label
     {
-        public Toy()
+        public Ball()
         {
             AutoSize = false;
             Width = 50;

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Fejlesztesi_minta.Abstraction
 {
-    public interface IToyFactory
+    public interface Toy
     {
-        Toy CreateNew();
+        Ball CreateNew();
     }
 }
