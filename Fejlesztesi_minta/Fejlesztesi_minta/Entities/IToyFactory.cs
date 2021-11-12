@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Fejlesztesi_minta.Entities
 {
-    public class IToyFactory : Abstraction.IToyFactory
+    public class BallFactory : Abstraction.IToyFactory
     {
         public Abstraction.Toy CreateNew()
         {
