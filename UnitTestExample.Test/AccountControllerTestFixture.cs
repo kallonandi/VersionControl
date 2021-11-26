@@ -81,15 +81,15 @@ namespace UnitTestExample.Test
             try
             {
                 AccountController.Register(email, password);
+                Assert.Fail();
+
             }
             catch (Exception ex)
             {
                 Assert.IsInstanceOf<ValidationException>(ex);
-                
             }
-            
-            
         }
+        
 
 
     }
