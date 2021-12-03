@@ -12,14 +12,14 @@ using System.Windows.Forms;
 
 namespace Mikrosimulation
 {
-    public partial class Form1 : Form
+    public partial class MikroSimulation : Form
     {
         Random rng = new Random(1234);
 
         List<Person> Population = new List<Person>();
         List<Birthprobability> Birthprobabilities = new List<Birthprobability>();
         List<Deathprobability> Deathprobabilities = new List<Deathprobability>();
-         public Form1()
+         public MikroSimulation()
         {
             InitializeComponent();
 
