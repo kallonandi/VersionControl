@@ -26,6 +26,29 @@ namespace Mikrosimulation
             Population = GetPopulation(@"C:\Temp\nép-teszt.csv");
             Birthprobabilities = GetBirthprobability(@"C:\Temp\születés.csv");
             Deathprobabilities = GetDeathprobability(@"C:\Temp\halál.csv");
+
+
+            for (int year = 2005; year <= 2024; year++)
+            {
+                for (int i = 0; i < Population.Count; i++)
+                {
+
+                }
+                int nbrofMales = (from x in Population
+                                  where x.Gener == Gender.Male && x.IsAlive
+                                  select x).Count();
+                int nbrofFemales = (from x in Population
+                                  where x.Gener == Gender.Female && x.IsAlive
+                                  select x).Count();
+                Console.WriteLine(string.Format(
+                    "Év: {0}\nFiúk: {1}nLányok: {2}\n",
+                    year,
+                    nbrofMales,
+                    nbrofFemales
+                    ));
+
+
+            }
         }
 
         public List<Person> GetPopulation(string csvPath)
