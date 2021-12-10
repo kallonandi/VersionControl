@@ -61,7 +61,26 @@ namespace Evolution_algorythm
                     gc.AddPlayer(b.Mutate());
             }
             gc.Start();
+
         }
+        Brain winnerBrain = null;
+        private void Gc_GameOver(object sender)
+        {
+            // ...
+
+            var winners = from p in topPerformers
+                          where p.IsWinner
+                          select p;
+            if (winners.Count() > 0)
+            {
+                winnerBrain = winners.FirstOrDefault().Brain.Clone();
+                gc.GameOver -= Gc_GameOver;
+                return;
+            }
+
+            
+        }
+
 
     }
 }
