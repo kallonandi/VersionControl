@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Data.Entity;
+//using System.Data.Entity;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -15,53 +15,81 @@ namespace _1gyak
 {
     public partial class Form1 : Form
     {
-        BindingList<User> users = new BindingList<User>();
-        
+        PortfolioEntities context = new PortfolioEntities();
+        List<Tick> Ticks;
+        List<PortfolioItem> Portfolio = new List<PortfolioItem>();
+        List<decimal> nyereségekRendezve;
         public Form1()
         {
             InitializeComponent();
-            label1.Text = Resource1.FullName;
-            button2.Text = Resource1.WriteToFile;
-            button1.Text = Resource1.Add;
-            button3.Text = Resource1.Delete;
-
-            listBox1.DataSource = users;
-            listBox1.ValueMember = "ID";
-            listBox1.DisplayMember = "FullName";
-
+            Ticks = context.Ticks.ToList();
+            dataGridView1.DataSource = Ticks;
             
+
+            CreatePortfolio();
+
+            List<decimal> Nyereségek = new List<decimal>();
+            int intervalum = 30;
+            DateTime kezdőDátum = (from x in Ticks select x.TradingDay).Min();
+            DateTime záróDátum = new DateTime(2016, 12, 30);
+            TimeSpan z = záróDátum - kezdőDátum;
+            for (int i = 0; i < z.Days - intervalum; i++)
+            {
+                decimal ny = GetPortfolioValue(kezdőDátum.AddDays(i + intervalum))
+                           - GetPortfolioValue(kezdőDátum.AddDays(i));
+                Nyereségek.Add(ny);
+                Console.WriteLine(i + " " + ny);
+            }
+
+             nyereségekRendezve = (from x in Nyereségek
+                                      orderby x
+                                      select x)
+                                        .ToList();
+            MessageBox.Show(nyereségekRendezve[nyereségekRendezve.Count() / 5].ToString());
+
+
         }
+        private void CreatePortfolio()
+        {
+            
+            Portfolio.Add(new PortfolioItem() { Index = "OTP", Volume = 10 });
+            Portfolio.Add(new PortfolioItem() { Index = "ZWACK", Volume = 10 });
+            Portfolio.Add(new PortfolioItem() { Index = "ELMU", Volume = 10 });
+
+            dataGridView2.DataSource = Portfolio;
+        }
+        private decimal GetPortfolioValue(DateTime date)
+        {
+            decimal value = 0;
+            foreach (var item in Portfolio)
+            {
+                var last = (from x in Ticks
+                            where item.Index == x.Index.Trim()
+                               && date <= x.TradingDay
+                            select x)
+                            .First();
+                value += (decimal)last.Price * item.Volume;
+            }
+            return value;
+        }
+       
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var u = new User()
-            {
-                FullName = textBox1.Text,
-                
-            };
-            users.Add(u);
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
             var sfd = new SaveFileDialog();
+            sfd.InitialDirectory = Application.StartupPath;
+
             if (sfd.ShowDialog() != DialogResult.OK)
                 return;
-            using (var sw = new StreamWriter(sfd.FileName, false, Encoding.UTF8)) 
+
+            using (var sw = new StreamWriter(sfd.FileName, false, Encoding.UTF8))
             {
-                foreach (var u in users)
+                sw.WriteLine("Időszak;Nyereség");
+                for (int i = 0; i < nyereségekRendezve.Count(); i++)
                 {
-                    sw.WriteLine(string.Format(
-                        "{0};{1}", u.ID, u.FullName));
+                    sw.WriteLine(string.Format("{0};{1}", i, nyereségekRendezve[i]));
                 }
             }
-            
-            
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            
         }
     }
 }
