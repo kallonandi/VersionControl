@@ -43,10 +43,7 @@ namespace Evolution_algorythm
                 "{0}. generáció",
                 generation);
             gc.ResetCurrentLevel();
-            var playerList = from p in gc.GetCurrentPlayers()
-                             orderby p.GetFitness() descending
-                             select p;
-            var topPerformers = playerList.Take(populationSize / 2).ToList();
+            
             foreach (var p in topPerformers)
             {
                 var b = p.Brain.Clone();
@@ -81,6 +78,13 @@ namespace Evolution_algorythm
             
         }
 
-
+        private void button1_Click(object sender, EventArgs e)
+        {
+            gc.ResetCurrentLevel();
+            gc.AddPlayer(winnerBrain.Clone());
+            gc.AddPlayer();
+            ga.Focus();
+            gc.Start(true);
+        }
     }
 }
