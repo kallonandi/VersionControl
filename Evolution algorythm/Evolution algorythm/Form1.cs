@@ -42,7 +42,25 @@ namespace Evolution_algorythm
             label1.Text = string.Format(
                 "{0}. generáció",
                 generation);
+            gc.ResetCurrentLevel();
+            var playerList = from p in gc.GetCurrentPlayers()
+                             orderby p.GetFitness() descending
+                             select p;
+            var topPerformers = playerList.Take(populationSize / 2).ToList();
+            foreach (var p in topPerformers)
+            {
+                var b = p.Brain.Clone();
+                if (generation % 3 == 0)
+                    gc.AddPlayer(b.ExpandBrain(nbrOfStepsIncrement));
+                else
+                    gc.AddPlayer(b);
 
+                if (generation % 3 == 0)
+                    gc.AddPlayer(b.Mutate().ExpandBrain(nbrOfStepsIncrement));
+                else
+                    gc.AddPlayer(b.Mutate());
+            }
+            gc.Start();
         }
 
     }
